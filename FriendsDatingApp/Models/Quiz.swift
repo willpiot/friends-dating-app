@@ -110,21 +110,26 @@ public struct QuizResponses: Codable {
 }
 
 /// 5-point Likert scale with weighted scoring
+/// Note: Weighting prioritizes strength of opinion over direction.
+/// Strong opinions (Strongly Agree/Disagree) carry the most weight (5 points).
+/// Moderate opinions (Agree/Disagree) carry medium weight (3/2 points).
+/// Neutral carries minimal weight (1 point).
 public enum LikertScale: Int, Codable, CaseIterable {
-    case stronglyDisagree = 1  // Weight: 1
-    case disagree = 2           // Weight: 2
-    case neutral = 3            // Weight: 1
-    case agree = 4              // Weight: 3
-    case stronglyAgree = 5      // Weight: 5
+    case stronglyDisagree = 1  // Weight: 1 (strong opinion, low value)
+    case disagree = 2           // Weight: 2 (moderate opinion)
+    case neutral = 3            // Weight: 1 (no strong opinion)
+    case agree = 4              // Weight: 3 (moderate opinion)
+    case stronglyAgree = 5      // Weight: 5 (strong opinion, high value)
     
     /// Get the weight for similarity calculation
+    /// Weighting emphasizes both strength and direction of opinion
     public var weight: Int {
         switch self {
-        case .stronglyAgree: return 5
-        case .agree: return 3
-        case .neutral: return 1
-        case .disagree: return 2
-        case .stronglyDisagree: return 1
+        case .stronglyAgree: return 5      // Highest weight for strong positive
+        case .agree: return 3               // Medium-high for moderate positive
+        case .neutral: return 1             // Lowest for no opinion
+        case .disagree: return 2            // Medium-low for moderate negative
+        case .stronglyDisagree: return 1    // Low for strong negative (disagreement less weighted)
         }
     }
     

@@ -31,7 +31,7 @@ public struct QuizView: View {
                             .multilineTextAlignment(.center)
                             .padding()
                         
-                        // Likert scale options
+                        // Likert scale options (reversed to show Strongly Agree first)
                         VStack(spacing: 15) {
                             ForEach(LikertScale.allCases.reversed(), id: \.self) { scale in
                                 Button(action: {

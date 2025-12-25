@@ -14,19 +14,8 @@ public class MatchingService {
             guard candidate.id != user.id else { return false }
             guard candidate.quizResponses?.isComplete == true else { return false }
             
-            // Check age range
-            if candidate.age < user.preferences.ageRangeMin || 
-               candidate.age > user.preferences.ageRangeMax {
-                return false
-            }
-            
             // Check mutual age compatibility
-            if user.age < candidate.preferences.ageRangeMin || 
-               user.age > candidate.preferences.ageRangeMax {
-                return false
-            }
-            
-            return true
+            return isAgeCompatible(user1: user, user2: candidate)
         }
         
         // Calculate similarity scores for all eligible candidates
@@ -61,5 +50,22 @@ public class MatchingService {
         }
         
         return recentMatches.count >= 3
+    }
+    
+    /// Check if two users are age-compatible based on their preferences
+    private static func isAgeCompatible(user1: User, user2: User) -> Bool {
+        // Check if user2 is within user1's age range
+        guard user2.age >= user1.preferences.ageRangeMin,
+              user2.age <= user1.preferences.ageRangeMax else {
+            return false
+        }
+        
+        // Check if user1 is within user2's age range (mutual compatibility)
+        guard user1.age >= user2.preferences.ageRangeMin,
+              user1.age <= user2.preferences.ageRangeMax else {
+            return false
+        }
+        
+        return true
     }
 }

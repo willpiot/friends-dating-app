@@ -89,20 +89,15 @@ FriendsDatingApp/
 
 ## Building the App
 
-This project uses Swift Package Manager:
+This project uses Xcode:
 
-```bash
-# Build the package
-swift build
-
-# Run tests
-swift test
-```
-
-For Xcode:
-1. Open `Package.swift` in Xcode
-2. Select the appropriate scheme
+1. Open `FriendsDatingApp.xcodeproj` in Xcode
+2. Select an iOS simulator or connected device
 3. Build and run (⌘+R)
+
+To run tests:
+- Press ⌘+U in Xcode
+- Or select Product > Test from menu
 
 ## How It Works
 

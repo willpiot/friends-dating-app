@@ -7,7 +7,7 @@ public struct Match: Identifiable, Codable {
     public let user2Id: UUID
     public let similarityScore: Double
     public let matchDate: Date
-    public let status: MatchStatus
+    public var status: MatchStatus
     public var scheduledDate: ScheduledDate?
     
     public init(

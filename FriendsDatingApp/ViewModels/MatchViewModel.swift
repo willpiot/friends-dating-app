@@ -38,20 +38,21 @@ public class MatchViewModel: ObservableObject {
             return
         }
         
-        var updatedMatch = weeklyMatches[index]
-        
-        if updatedMatch.user1Id == userId {
-            updatedMatch.scheduledDate?.user1Accepted = true
-        } else if updatedMatch.user2Id == userId {
-            updatedMatch.scheduledDate?.user2Accepted = true
+        // Update the scheduled date acceptance status
+        if var scheduledDate = weeklyMatches[index].scheduledDate {
+            if weeklyMatches[index].user1Id == userId {
+                scheduledDate.user1Accepted = true
+            } else if weeklyMatches[index].user2Id == userId {
+                scheduledDate.user2Accepted = true
+            }
+            
+            weeklyMatches[index].scheduledDate = scheduledDate
+            
+            // Check if both accepted and update status
+            if scheduledDate.isConfirmed {
+                weeklyMatches[index].status = .accepted
+            }
         }
-        
-        // Check if both accepted
-        if updatedMatch.scheduledDate?.isConfirmed == true {
-            updatedMatch.status = .accepted
-        }
-        
-        weeklyMatches[index] = updatedMatch
     }
     
     public func declineMatch(_ match: Match) {
