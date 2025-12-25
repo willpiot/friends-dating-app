@@ -10,7 +10,7 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/willpiot/friends-dating-app.git
+   git clone https://github.com/YOUR_USERNAME/friends-dating-app.git
    cd friends-dating-app
    ```
 

@@ -110,26 +110,32 @@ public struct QuizResponses: Codable {
 }
 
 /// 5-point Likert scale with weighted scoring
-/// Note: Weighting prioritizes strength of opinion over direction.
-/// Strong opinions (Strongly Agree/Disagree) carry the most weight (5 points).
-/// Moderate opinions (Agree/Disagree) carry medium weight (3/2 points).
-/// Neutral carries minimal weight (1 point).
+/// Note: Weighting prioritizes strength of positive opinion (agreement) over negative.
+/// This is intentional for a compatibility-focused dating app where shared positive
+/// interests/values matter more than shared dislikes.
+/// 
+/// Weighting per problem requirements:
+/// - Strongly Agree: 5 points (strong positive opinion)
+/// - Agree: 3 points (moderate positive opinion)
+/// - Neutral: 1 point (no opinion)
+/// - Disagree: 2 points (moderate negative opinion)
+/// - Strongly Disagree: 1 point (strong negative, but low weight)
 public enum LikertScale: Int, Codable, CaseIterable {
-    case stronglyDisagree = 1  // Weight: 1 (strong opinion, low value)
-    case disagree = 2           // Weight: 2 (moderate opinion)
-    case neutral = 3            // Weight: 1 (no strong opinion)
-    case agree = 4              // Weight: 3 (moderate opinion)
-    case stronglyAgree = 5      // Weight: 5 (strong opinion, high value)
+    case stronglyDisagree = 1  // Weight: 1
+    case disagree = 2           // Weight: 2
+    case neutral = 3            // Weight: 1
+    case agree = 4              // Weight: 3
+    case stronglyAgree = 5      // Weight: 5
     
     /// Get the weight for similarity calculation
-    /// Weighting emphasizes both strength and direction of opinion
+    /// Weighting emphasizes positive agreement for compatibility matching
     public var weight: Int {
         switch self {
-        case .stronglyAgree: return 5      // Highest weight for strong positive
-        case .agree: return 3               // Medium-high for moderate positive
-        case .neutral: return 1             // Lowest for no opinion
-        case .disagree: return 2            // Medium-low for moderate negative
-        case .stronglyDisagree: return 1    // Low for strong negative (disagreement less weighted)
+        case .stronglyAgree: return 5      // Highest weight per requirements
+        case .agree: return 3               // Medium-high per requirements
+        case .neutral: return 1             // Low per requirements
+        case .disagree: return 2            // Medium-low
+        case .stronglyDisagree: return 1    // Low (disagreement less important than agreement)
         }
     }
     

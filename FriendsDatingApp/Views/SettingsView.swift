@@ -17,11 +17,11 @@ public struct SettingsView: View {
                         showingQuiz = true
                     }
                     
-                    if let lastUpdate = viewModel.user.quizResponses != nil ? viewModel.user.lastQuizUpdate : nil {
+                    if viewModel.user.quizResponses != nil {
                         HStack {
                             Text("Last Updated")
                             Spacer()
-                            Text(lastUpdate, style: .date)
+                            Text(viewModel.user.lastQuizUpdate, style: .date)
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -50,6 +50,7 @@ public struct SettingsView: View {
                             .foregroundColor(.secondary)
                     }
                     
+                    // TODO: Replace with actual production URLs
                     if let privacyURL = URL(string: "https://example.com/privacy") {
                         Link("Privacy Policy", destination: privacyURL)
                     }
